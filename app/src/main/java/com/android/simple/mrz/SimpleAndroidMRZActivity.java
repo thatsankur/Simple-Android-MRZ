@@ -10,6 +10,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -47,7 +48,7 @@ public class SimpleAndroidMRZActivity extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-
+		super.onCreate(savedInstanceState);
 		String[] paths = new String[] { DATA_PATH, DATA_PATH + "tessdata/" };
 
 		for (String path : paths) {
@@ -116,6 +117,8 @@ public class SimpleAndroidMRZActivity extends Activity {
 	// http://labs.makemachine.net/2010/03/simple-android-photo-capture/
 
 	protected void startCameraActivity() {
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 		File file = new File(_path);
 		Uri outputFileUri = Uri.fromFile(file);
 

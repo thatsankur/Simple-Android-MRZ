@@ -1,13 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 28
 
     defaultConfig {
         applicationId "com.android.simple.mrz"
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
@@ -27,5 +26,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar,*.so'])
     testCompile 'junit:junit:4.12'
+//    compile 'com.rmtheis:tess-two:7.0.0'
+    implementation 'com.rmtheis:tess-two:9.0.0'
+    implementation 'com.android.support:multidex:1.0.3'
     compile 'com.android.support:appcompat-v7:22.2.1'
 }
