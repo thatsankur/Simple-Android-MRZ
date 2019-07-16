@@ -34,7 +34,8 @@ public class SimpleAndroidMRZActivity extends Activity {
 	// You should have the trained data file in assets folder
 	// You can get them at:
 	// http://code.google.com/p/tesseract-ocr/downloads/list
-	public static final String lang = "eng";
+//	public static final String lang = "eng";
+	public static final String lang = "ocrb";
 
 	private static final String TAG = "SimpleAndroidMRZ.java";
 
@@ -104,6 +105,7 @@ public class SimpleAndroidMRZActivity extends Activity {
 		_button.setOnClickListener(new ButtonClickHandler());
 
 		_path = DATA_PATH + "/ocr.jpg";
+		onPhotoTaken();
 	}
 
 	public class ButtonClickHandler implements View.OnClickListener {
@@ -159,7 +161,8 @@ public class SimpleAndroidMRZActivity extends Activity {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 4;
 
-		Bitmap bitmap = BitmapFactory.decodeFile(_path, options);
+//		Bitmap bitmap = BitmapFactory.decodeFile(_path, options);
+		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mrz);
 
 		try {
 			ExifInterface exif = new ExifInterface(_path);
@@ -226,7 +229,7 @@ public class SimpleAndroidMRZActivity extends Activity {
 		Log.v(TAG, "OCRED TEXT: " + recognizedText);
 
 		if ( lang.equalsIgnoreCase("eng") ) {
-			recognizedText = recognizedText.replaceAll("[^a-zA-Z0-9]+", " ");
+			//recognizedText = recognizedText.replaceAll("[^a-zA-Z0-9]+", " ");
 		}
 
 		recognizedText = recognizedText.trim();
