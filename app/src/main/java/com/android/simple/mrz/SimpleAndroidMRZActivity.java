@@ -19,6 +19,8 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
+import com.innovatrics.mrz.MrzParser;
+import com.innovatrics.mrz.MrzRecord;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -158,6 +160,7 @@ public class SimpleAndroidMRZActivity extends AppCompatActivity {
 	}
 
 	protected void onPhotoTaken(String _path) {
+		_field.setText("");
 		_taken = true;
 
 		BitmapFactory.Options options = new BitmapFactory.Options();
@@ -227,18 +230,38 @@ public class SimpleAndroidMRZActivity extends AppCompatActivity {
 		// You now have the text in recognizedText var, you can do anything with it.
 		// We will display a stripped out trimmed alpha-numeric version of it (if lang is eng)
 		// so that garbage doesn't make it to the display.
-
-		Log.v(TAG, "OCRED TEXT: " + recognizedText);
-
-		if ( lang.equalsIgnoreCase("eng") ) {
-			//recognizedText = recognizedText.replaceAll("[^a-zA-Z0-9]+", " ");
-		}
+		final MrzRecord record = MrzParser.parse(recognizedText);
+		Log.v(TAG, "OCRED TEXT: " + record);
 
 		recognizedText = recognizedText.trim();
 
 		if ( recognizedText.length() != 0 ) {
-			_field.setText(_field.getText().toString().length() == 0 ? recognizedText : _field.getText() + " " + recognizedText);
-			_field.setSelection(_field.getText().toString().length());
+			StringBuffer sb = new StringBuffer();
+			sb.append("issuingCountry := " + record.issuingCountry +"\n");
+			sb.append("givenNames := " + record.givenNames +"\n");
+			sb.append("nationality := " + record.nationality +"\n");
+			sb.append("surname := " + record.surname +"\n");
+
+			sb.append("code := " + record.code +"\n");
+			sb.append("code1 := " + record.code1 +"\n");
+			sb.append("code2 := " + record.code2 +"\n");
+
+			sb.append("sex := " + record.sex +"\n");
+			sb.append("format := " + record.format +"\n");
+
+
+			sb.append("documentNumber := " + record.documentNumber +"\n");
+			sb.append("validDocumentNumber := " + record.validDocumentNumber +"\n");
+
+			sb.append("expirationDate := " + record.expirationDate +"\n");
+			sb.append("validExpirationDate := " + record.validExpirationDate +"\n");
+
+			sb.append("dateOfBirth := " + record.dateOfBirth +"\n");
+			sb.append("validDateOfBirth := " + record.validDateOfBirth +"\n");
+
+			sb.append("validComposite := " + record.validComposite +"\n");
+
+			_field.setText(sb.toString());
 		}
 
 		// Cycle done.
